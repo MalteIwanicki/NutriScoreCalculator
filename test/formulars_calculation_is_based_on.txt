@@ -1,0 +1,25 @@
+A2, Produkt: Beispiel: Frühstückscerealien (Mittelwert)
+B2, Marke: CIQUAL
+C2, None: None
+D2, Kilokalorien: 399
+E2, Brennwert: =ROUND(D2*4.184,0)
+F2, Gesamtfett: None
+G2, gesättigte Fettsäuren: 2.37
+H2, Zucker: 26.3
+I2, Proteine: 7.99
+J2, Salz: 0.82
+K2, Ballaststoffe: 4.83
+L2, Nährwert- einheiten: None
+M2, Anteil Obst, Gemüse, Hülsen- und Schalenfrüchte, Raps-, Walnuss- und Olivenöle: 0
+N2, Natrium: =ROUND(J2/2.5*1000,0)
+O2, pts_kj: =IF(ISBLANK(E2)," ",IF(ROUND(E2,1)<=335,0,IF(ROUND(E2,1)<=670,1,IF(ROUND(E2,1)<=1005,2,IF(ROUND(E2,1)<=1340,3,IF(ROUND(E2,1)<=1675,4,IF(ROUND(E2,1)<=2010,5,IF(ROUND(E2,1)<=2345,6,IF(ROUND(E2,1)<=2680,7,IF(ROUND(E2,1)<=3015,8,IF(ROUND(E2,1)<=3350,9,10)))))))))))
+P2, pts_glus: =IF(ISBLANK(H2)," ",IF(ROUND(H2,2)<=4.5,0,IF(ROUND(H2,1)<=9,1,IF(ROUND(H2,2)<=13.5,2,IF(ROUND(H2,1)<=18,3,IF(ROUND(H2,2)<=22.5,4,IF(ROUND(H2,1)<=27,5,IF(ROUND(H2,1)<=31,6,IF(ROUND(H2,1)<=36,7,IF(ROUND(H2,1)<=40,8,IF(ROUND(H2,1)<=45,9,10)))))))))))
+Q2, pts_ags: =IF(ISBLANK(G2)," ",IF(ROUND(G2,1)<=1,0,IF(ROUND(G2,1)<=2,1,IF(ROUND(G2,1)<=3,2,IF(ROUND(G2,1)<=4,3,IF(ROUND(G2,1)<=5,4,IF(ROUND(G2,1)<=6,5,IF(ROUND(G2,1)<=7,6,IF(ROUND(G2,1)<=8,7,IF(ROUND(G2,1)<=9,8,IF(ROUND(G2,1)<=10,9,10)))))))))))
+R2, pts_na: =IF(ISBLANK(N2)," ",IF(ROUND(N2,1)<=90,0,IF(ROUND(N2,1)<=180,1,IF(ROUND(N2,1)<=270,2,IF(ROUND(N2,1)<=360,3,IF(ROUND(N2,1)<=450,4,IF(ROUND(N2,1)<=540,5,IF(ROUND(N2,1)<=630,6,IF(ROUND(N2,1)<=720,7,IF(ROUND(N2,1)<=810,8,IF(ROUND(N2,1)<=900,9,10)))))))))))
+S2, pts_prot: =IF(ISBLANK(I2)," ",IF(ROUND(I2,2)<=1.6,0,IF(ROUND(I2,2)<=3.2,1,IF(ROUND(I2,2)<=4.8,2,IF(ROUND(I2,2)<=6.4,3,IF(ROUND(I2,1)<=8,4,5))))))
+T2, pts_fib: =IF(ISBLANK(K2)," ",IF(ROUND(K2,2)<=0.9,0,IF(ROUND(K2,2)<=1.9,1,IF(ROUND(K2,2)<=2.8,2,IF(ROUND(K2,2)<=3.7,3,IF(ROUND(K2,2)<=4.7,4,5))))))
+U2, pts_FLN: =IF(ISBLANK(M2)," ",IF(ROUND(M2,1)<=40,0,IF(ROUND(M2,1)<=60,1,IF(ROUND(M2,1)<=80,2,5))))
+V2, pts_A: =IF(OR(ISBLANK(E2),ISBLANK(H2),ISBLANK(G2),ISBLANK(N2),ISBLANK(I2),ISBLANK(K2),ISBLANK(M2))," ",O2+P2+Q2+R2)
+W2, Wert: =IF(OR(V2=" ",S2=" ",T2=" ",U2=" ")," ",IF(AND(V2>=0,V2<11),V2-(SUM(S2:U2)),IF(AND(V2>=11,U2=5),V2-SUM(S2:U2),V2-U2-T2)))
+X2, Nutri-Score: =IF(OR(ISBLANK(E2),ISBLANK(H2),ISBLANK(G2),ISBLANK(N2),ISBLANK(I2),ISBLANK(K2),ISBLANK(M2)),"fehlende_Daten",IF(W2<0,"Nutriscore_A",IF(W2<3,"Nutriscore_B",IF(W2<11,"Nutriscore_C",IF(W2<19,"Nutriscore_D","Nutriscore_E")))))
+Y2, Farbe: =IF(X2="fehlende_Daten","fehlende_Daten",IF(X2="Nutriscore_A","Dunkelgrün",IF(X2="Nutriscore_B","Hellgrün",IF(X2="Nutriscore_C","Gelb",IF(X2="Nutriscore_D","Orange","Rot")))))
