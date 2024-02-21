@@ -1,4 +1,4 @@
-name: Python application test with pytest
+name: Algorithm is up to date and unittest succeedes 
 
 on:
   push:

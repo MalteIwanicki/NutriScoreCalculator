@@ -1,3 +1,6 @@
+
+[![Algorithm is up to date and unittest succeedes](https://github.com/MalteIwanicki/NutriScoreCalculator/actions/workflows/main.yml/badge.svg)](https://github.com/MalteIwanicki/NutriScoreCalculator/actions/workflows/main.yml)
+
 # NutriScoreCalculator
 
 The goal of this project is to provide a simple package that can calculate the Nutri-Score based on the formula of 2024.
