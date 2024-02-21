@@ -30,9 +30,10 @@ pip install .
 ## Calculate the Nutri-Score:
 
 ```Python
-from nutri_score_calculator import NutriScoreCalculator
+from nutri_score_calculator import NutriScoreCalculator, NutriScoreCategory
 
 result = NutriScoreCalculator.calculate_nutri_score(
+    category=NutriScoreCategory.ALLGEMEINER_FALL,
     kilokalorien=0,
     gesaettigte_fettsaeuren=4,
     zucker=60,
