@@ -1,3 +1,4 @@
 nutri-score-dt-excel-berechnungstabelle.xlsx
 *.pyc
 .vscode
+*.json

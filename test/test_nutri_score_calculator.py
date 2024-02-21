@@ -30,9 +30,7 @@ def test_if_calculation_matches_example_käse():
         ballaststoffe=0,
         anteil_obst_gemuese_huelsen_schalen_raps_walnuss_und_olivenoele=0,
     )
-    result = NutriScoreCalculator.calculate_nutri_score(
-        **example_values
-    )
+    result = NutriScoreCalculator.calculate_nutri_score(**example_values)
     assert result[0] == "Nutriscore_D"
     assert result[1] == 14
 
@@ -66,9 +64,7 @@ def test_if_calculation_matches_example_getränke():
         ballaststoffe=0,
         anteil_obst_gemuese_huelsen_schalen_raps_walnuss_und_olivenoele=0,
     )
-    result = NutriScoreCalculator.calculate_nutri_score(
-        **example_values
-    )
+    result = NutriScoreCalculator.calculate_nutri_score(**example_values)
     assert result[0] == "Nutriscore_E"
     assert result[1] == 12
 

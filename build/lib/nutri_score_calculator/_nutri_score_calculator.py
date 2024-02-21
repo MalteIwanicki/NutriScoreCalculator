@@ -1,5 +1,4 @@
 from enum import Enum
-from argparse import ArgumentParser
 
 
 def _all_parameter_set(func):
@@ -400,13 +399,6 @@ class NutriScoreCategory(Enum):
     ZUGESETZTE_FETTE = ZugesetzteFette
     GETRAENKE = Getraenke
 
-    @staticmethod
-    def argparse(s):
-        try:
-            return NutriScoreCategory[s]
-        except KeyError:
-            return s
-
 
 class NutriScoreGenerator:
     """
@@ -441,63 +433,31 @@ class NutriScoreGenerator:
             ist_wasser=ist_wasser,
         )
 
+def _extract_formulars():
+    import openpyxl
 
-class NutriScoreArgparser(ArgumentParser):
-    def __init__(self):
-        super().__init__()
-        self.add_argument(
-            "--kilokalorien",
-            type=float,
-            default=0,
-            help="Kilokalorien (kcal/100g oder 100ml)",
-        )
-        self.add_argument(
-            "--gesaettigte_fettsaeuren",
-            type=float,
-            default=0,
-            help="gesättigte Fettsäuren (g/100g oder 100ml)",
-        )
-        self.add_argument(
-            "--zucker", type=float, default=0, help="Zucker (g/100g oder 100ml)"
-        )
-        self.add_argument(
-            "--proteine", type=float, default=0, help="Proteine (g/100g oder 100ml)"
-        )
-        self.add_argument(
-            "--ballaststoffe",
-            type=float,
-            default=0,
-            help="Ballaststoffe (g/100g oder 100ml)",
-        )
-        self.add_argument(
-            "--anteil_obst_gemuese_huelsen_schalen_raps_walnuss_und_olivenoele",
-            "-ags",
-            type=float,
-            default=0,
-            help="Obst, Gemüse, Hülsen- und Olivenöle (%/100g  oder 100ml)",
-        )
-        self.add_argument(
-            "--salz", type=float, default=0, help="Salz (g/100g oder 100ml)"
-        )
-        self.add_argument(
-            "--gesamtfett", type=float, default=0, help="Gesamtfett (g/100g oder 100ml)"
-        )
-        self.add_argument(
-            "--ist_wasser",
-            type=bool,
-            default=False,
-            help="Wasser (ohne jegliche Zustätze)",
-        )
-        self.add_argument(
-            "--category",
-            type=NutriScoreCategory.argparse,
-            default=NutriScoreCategory.ALLGEMEINER_FALL,
-            choices=[e for e in NutriScoreCategory],
-            help="Category: ['ALLGEMEINER_FALL', 'KAESE', 'ZUGESETZTE_FETTE', 'GETRAENKE']",
-        )
+    workbook = openpyxl.load_workbook(
+        "./nutri-score-dt-excel-berechnungstabelle.xlsx",
+        read_only=True,
+    )
+    sheetnames = ["allgemeiner Fall", "Käse", "zugesetzte Fette", "Getränke"]
+    sheet_formulars = {}
+    for sheetname in sheetnames:
+        worksheet = workbook[sheetname]
+        header = worksheet[1]
+        columns = {col.column_letter: col.value for col in header}
+        formulars = []
+        for col, name in columns.items():
+            cell = col + "2"
+            formulars.append(f"{cell}, {name}: {worksheet[cell].value}")
+        sheet_formulars[sheetname] = formulars
+    workbook.close()
+    import json
+
+    with open("formulars.json", "w", encoding="utf-8") as f:
+        json.dump(sheet_formulars, f, indent=6, ensure_ascii=False)
 
 
 if __name__ == "__main__":
-    args = NutriScoreArgparser().parse_args()
-    result = NutriScoreGenerator.calculate_nutri_score(**args.__dict__)
-    print(result)
+    _extract_formulars()
+    pass
