@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='nutri_score_calculator',
-    version='0.1',
+    version='0.2',
     packages=find_packages(),
     url='https://github.com/malteiwanicki/nutri_score_calculator',
     license='MIT',
